@@ -1,0 +1,20 @@
+@use "../base/variables.scss" as *;
+
+.heading {
+  color: $color-text;
+  font-weight: 400;
+
+  &--sm {
+    font-size: $font-size-sm;
+  }
+  &--lg {
+    font-size: $font-size-lg;
+  }
+  &--xl {
+    font-size: $font-size-xl;
+  }
+
+  &--light {
+    color: $color-surface;
+  }
+}
