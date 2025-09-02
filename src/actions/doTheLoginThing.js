@@ -1,6 +1,8 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
 import z from "zod";
 
 export default async function doTheLoginThing(prevState, formData) {
@@ -39,6 +41,7 @@ export default async function doTheLoginThing(prevState, formData) {
   if (token) {
     const cookieStore = await cookies();
     cookieStore.set("token", token, { maxAge: 60 * 30 });
+    redirect("/");
     return { success: true };
   } else {
     return {
