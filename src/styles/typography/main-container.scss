@@ -1,0 +1,8 @@
+@use "../base/variables.scss" as *;
+
+.main-layout {
+  margin-top: 100px;
+  margin-bottom: 74px;
+  overflow-y: auto;
+  background-color: $color-primary;
+}

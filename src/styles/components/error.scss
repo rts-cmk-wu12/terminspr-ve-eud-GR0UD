@@ -1,0 +1,31 @@
+@use "../base/variables.scss" as *;
+
+.global-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: $color-accent;
+  color: $color-primary;
+  font-size: $font-size-md;
+  font-weight: bold;
+  flex-direction: column;
+  text-align: center;
+}
+
+.global-error__message {
+  margin-top: 1rem;
+  font-size: $font-size-sm;
+  font-weight: normal;
+}
+
+.global-error__button {
+  margin-top: 2rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  background: $color-primary;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}

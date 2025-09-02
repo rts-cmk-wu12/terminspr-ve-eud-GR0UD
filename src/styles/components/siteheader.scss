@@ -1,6 +1,43 @@
 @use "../base/variables.scss" as *;
+
 .site__header {
   background-color: $color-primary;
-  padding: 3.2rem;
+  padding: 3.2rem 2.8rem;
   width: 100%;
+  box-shadow: 0 4px 16px 0 rgba($color-primary, 1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+  &__search-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem;
+    background: rgba($color-surface, 0.25);
+  }
+
+  &__search {
+    font-size: 1.5rem;
+    outline: none;
+    background-color: transparent;
+    color: $color-surface;
+    min-width: 160px;
+    &::placeholder {
+      color: rgba($color-surface, 0.3);
+    }
+  }
+
+  &__search-button {
+    color: $color-surface;
+    background-color: transparent;
+    border: none;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
 }

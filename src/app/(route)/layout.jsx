@@ -9,16 +9,16 @@ export default function NoneLayout({ children }) {
 
   return (
     <>
-      <SiteHeader>
+      <SiteHeader search={pathname === "/search"}>
         {pathname === "/"
-          ? "Home"
+          ? "Aktiviteter"
           : pathname === "/search"
-          ? "Search"
+          ? "Søg"
           : pathname === "/calendar"
-          ? "Calendar"
+          ? "Kalender"
           : "Unknown"}
       </SiteHeader>
-      <main>{children}</main>
+      <main className='main-layout'>{children}</main>
       <Dock />
     </>
   );

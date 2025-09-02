@@ -1,15 +1,9 @@
-import Heading from "@/components/ui/heading";
-import Image from "next/image";
+import ActivitiesList from "@/components/ui/activitiesList";
 
 export default function Home() {
   return (
     <section>
-      <article>
-        <div>
-          <Heading>sefoisjefosiefjsioefjiosefs</Heading>
-          <span>sefsefsefsefsefsefsef</span>
-        </div>
-      </article>
+      <ActivitiesList />
     </section>
   );
 }

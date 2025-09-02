@@ -1,0 +1,13 @@
+@use "../base/variables.scss" as *;
+
+.global-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: $color-primary;
+  color: #fff;
+  font-size: $font-size-md;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
