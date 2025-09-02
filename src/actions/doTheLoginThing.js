@@ -37,7 +37,7 @@ export default async function doTheLoginThing(prevState, formData) {
   const token = data.token;
 
   if (token) {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     cookieStore.set("token", token, { maxAge: 60 * 30 });
     return { success: true };
   } else {
