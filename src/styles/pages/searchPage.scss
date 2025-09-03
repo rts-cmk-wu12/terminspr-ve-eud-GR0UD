@@ -1,0 +1,11 @@
+@use "../base/variables.scss" as *;
+
+.search {
+  padding-top: 7.5rem;
+  &__results {
+    font-size: 1.5rem;
+    width: 100%;
+    padding: 0 2.8rem;
+    color: $color-surface;
+  }
+}

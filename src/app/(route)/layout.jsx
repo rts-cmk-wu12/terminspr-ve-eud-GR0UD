@@ -2,14 +2,24 @@
 
 import Dock from "@/components/ui/dock";
 import SiteHeader from "@/components/ui/siteHeader";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function NoneLayout({ children }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleSearch = (query) => {
+    if (query && pathname === "/search") {
+      router.push(`/search?q=${encodeURIComponent(query)}`);
+    }
+  };
 
   return (
     <>
-      <SiteHeader search={pathname === "/search"}>
+      <SiteHeader
+        search={pathname === "/search"}
+        onSearch={pathname === "/search" ? handleSearch : undefined}
+      >
         {pathname === "/"
           ? "Aktiviteter"
           : pathname === "/search"
@@ -18,7 +28,7 @@ export default function NoneLayout({ children }) {
           ? "Kalender"
           : "Unknown"}
       </SiteHeader>
-      <main className='main-layout'>{children}</main>
+      <main className='both-layout'>{children}</main>
       <Dock />
     </>
   );

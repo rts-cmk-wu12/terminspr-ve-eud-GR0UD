@@ -2,19 +2,49 @@
 
 .heading {
   color: $color-text;
-  font-weight: 400;
+  margin: 0;
+  line-height: 1.2;
+
+  &:where(h1) {
+    font-weight: 700;
+  }
+
+  &:where(h2) {
+    font-weight: 600;
+  }
+
+  &:where(h3) {
+    font-weight: 500;
+  }
+
+  &--xs {
+    font-size: $font-size-sm * 0.875;
+    letter-spacing: 0.5px;
+  }
 
   &--sm {
     font-size: $font-size-sm;
   }
+
+  &--md {
+    font-size: $font-size-md;
+  }
+
   &--lg {
     font-size: $font-size-lg;
   }
+
   &--xl {
     font-size: $font-size-xl;
+    font-weight: 700;
+    line-height: 1.1;
   }
 
   &--light {
     color: $color-surface;
+  }
+
+  &--primary {
+    color: $color-primary;
   }
 }

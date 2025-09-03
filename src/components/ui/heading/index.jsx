@@ -5,18 +5,17 @@ export default function Heading({
   className = "",
   children,
 }) {
-  const Tag = as === "h2" ? "h2" : "h1";
-  const sizeClass = `heading--${size}`;
+  const validTags = ["h1", "h2", "h3"];
+  const Tag = validTags.includes(as) ? as : "h1";
+
+  const sizeClass = size ? `heading--${size}` : "";
   const colorClass = color === "light" ? "heading--light" : "";
+
   const classes = ["heading", sizeClass, colorClass, className]
     .filter(Boolean)
     .join(" ");
-  return (
-    <header className='header'>
-      <Tag className={classes}>{children}</Tag>
-    </header>
-  );
+
+  return <Tag className={classes}>{children}</Tag>;
 }
 
-// Heading component
-// example use: <Heading as="h2" size="sm" color="light">Small Heading</Heading>
+// <Heading as="h2" size="sm" color="light">Small Heading</Heading>

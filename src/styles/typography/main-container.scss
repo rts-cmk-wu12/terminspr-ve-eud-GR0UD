@@ -1,8 +1,16 @@
 @use "../base/variables.scss" as *;
 
-.main-layout {
-  margin-top: 100px;
-  margin-bottom: 74px;
+.both-layout {
+  padding-top: 100px;
+  padding-bottom: 75px;
   overflow-y: auto;
   background-color: $color-primary;
+  min-height: 100dvh;
+}
+
+.dock-layout {
+  padding-bottom: 80px;
+  overflow-y: auto;
+  background-color: $color-primary;
+  min-height: 100dvh;
 }
