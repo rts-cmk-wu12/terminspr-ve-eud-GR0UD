@@ -16,11 +16,16 @@ export default async function doTheLoginThing(prevState, formData) {
 
   const validated = schema.safeParse({ username, password });
 
-  if (!validated.success)
+  if (!validated.success) {
     return {
-      success: false,
-      errors: validated.error.errors.map((e) => e.message),
+      ok: false,
+      message: "Validation failed",
+      errors: validated.error?.errors?.map((e) => e.message) || [
+        "Invalid input",
+      ],
+      properties: validated.error?.flatten()?.fieldErrors,
     };
+  }
 
   const response = await fetch("http://localhost:4000/auth/token", {
     method: "POST",
@@ -30,22 +35,25 @@ export default async function doTheLoginThing(prevState, formData) {
 
   if (!response.ok) {
     return {
-      success: false,
+      ok: false,
+      message: "Authentication failed",
       errors: ["Brugernavn eller adgangskode er forkert"],
     };
   }
 
   const data = await response.json();
   const token = data.token;
+  const userId = data.user?.id || data.userId;
 
-  if (token) {
+  if (token && userId) {
     const cookieStore = await cookies();
     cookieStore.set("token", token, { maxAge: 60 * 30 });
+    cookieStore.set("userId", userId, { maxAge: 60 * 30 });
     redirect("/");
-    return { success: true };
   } else {
     return {
-      success: false,
+      ok: false,
+      message: "Authentication failed",
       errors: ["Brugernavn eller adgangskode er forkert"],
     };
   }

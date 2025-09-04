@@ -30,7 +30,7 @@
     outline: none;
     background-color: transparent;
     color: $color-surface;
-    min-width: 160px;
+    flex: 1;
     &::placeholder {
       color: rgba($color-surface, 0.3);
     }

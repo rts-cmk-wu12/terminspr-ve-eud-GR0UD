@@ -4,8 +4,12 @@ import useFetch from "@/hooks/useFetch";
 import Heading from "@/components/ui/heading";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
-export default function ActivitiesList({ query = "" }) {
+export default function ActivitiesList() {
+  const searchParams = useSearchParams();
+  const query = searchParams.get("q") || "";
+
   const { data: activities } = useFetch("activities");
 
   const filteredActivities = (activities || []).filter((activity) =>
@@ -14,6 +18,13 @@ export default function ActivitiesList({ query = "" }) {
 
   return (
     <>
+      {query && (
+        <div className='search__results'>
+          <p>
+            Showing results for: <strong>{query}</strong>
+          </p>
+        </div>
+      )}
       <ul className='activities-list'>
         {filteredActivities.map((activity) => (
           <li key={activity.id} className='activities-list__item'>

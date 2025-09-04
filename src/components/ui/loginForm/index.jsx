@@ -27,24 +27,30 @@ export default function LoginForm() {
           name='username'
           placeholder='brugernavn'
         />
-        <p
+        <div
           role={formState.ok ? "status" : "alert"}
           className='login__container__form__error'
         >
-          {formState?.properties?.username?.errors}
-        </p>
+          {formState?.properties?.username?.[0]}
+        </div>
         <input
           className='login__container__form__input'
           type='password'
           name='password'
           placeholder='adgangskode'
         />
-        <p
+        <div
           role={formState.ok ? "status" : "alert"}
           className='login__container__form__error'
         >
-          {formState?.properties?.password?.errors}
-        </p>
+          {formState?.properties?.password?.[0]
+            ? formState.properties.password[0]
+            : !formState?.properties?.username?.[0] &&
+              !formState?.properties?.password?.[0] &&
+              formState?.errors?.[0]
+            ? formState.errors[0]
+            : null}
+        </div>
         <button
           className='login__container__form__button'
           type='submit'
@@ -52,7 +58,6 @@ export default function LoginForm() {
         >
           Log ind
         </button>
-        <p className='login__container__form__error'>{formState?.errors}</p>
       </form>
     </section>
   );

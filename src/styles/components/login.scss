@@ -42,11 +42,32 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-top: 1rem;
+
+      &__error {
+        color: $color-surface;
+        font-size: $font-size-xs;
+        margin-bottom: 0.5rem;
+        width: 100%;
+        text-align: center;
+        transition: all 0.2s ease-in-out;
+        opacity: 0;
+        transform: translateY(-5px);
+        margin-top: -1rem;
+        height: 1.4rem;
+        font-weight: bold;
+        &:not(:empty) {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
       &__input {
         padding: 1.5rem 2.2rem;
         width: 100%;
         background-color: $color-surface;
         margin-bottom: 1.5rem;
+        border: 1px solid transparent;
       }
       &__button {
         margin-top: 1.5rem;

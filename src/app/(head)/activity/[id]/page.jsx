@@ -1,17 +1,52 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Heading from "@/components/ui/heading";
 import useFetch from "@/hooks/useFetch";
 import formatDate from "@/utils/getDate";
+import { addUserToActivity, removeUserFromActivity } from "@/utils/ActivityApi";
+import getCookie from "@/utils/getCookie";
 
 export default function ActivityPage({ params }) {
   const unwrappedParams = React.use(params);
   const { id } = unwrappedParams;
   const { data: activity, error, loading } = useFetch(`activities/${id}`);
+  const [isSignedUp, setIsSignedUp] = useState(false);
+
+  useEffect(() => {
+    if (activity && activity.participants) {
+      const userId = getCookie("userId");
+      setIsSignedUp(
+        activity.participants.some((p) => String(p.id) === String(userId))
+      );
+    }
+  }, [activity]);
 
   if (loading) return <div className='activity__loading'>Loading...</div>;
   if (error || !activity)
     return <div className='activity__error'>Error loading activity.</div>;
+
+  const handleSignupToggle = async () => {
+    const userId = getCookie("userId");
+    const token = getCookie("token");
+    try {
+      if (isSignedUp) {
+        await removeUserFromActivity(userId, activity.id, token);
+        alert("Du er nu afmeldt!");
+        setIsSignedUp(false);
+      } else {
+        await addUserToActivity(userId, activity.id, token);
+        alert("Du er nu tilmeldt!");
+        setIsSignedUp(true);
+      }
+    } catch (err) {
+      if (err.message.includes("unique")) {
+        alert("Du er allerede tilmeldt dette hold.");
+        setIsSignedUp(true);
+      } else {
+        alert("Noget gik galt. Prøv igen.");
+      }
+    }
+  };
 
   return (
     <section className='activity'>
@@ -63,7 +98,9 @@ export default function ActivityPage({ params }) {
           </div>
         </div>
 
-        <button className='activity__button'>Tilmeld nu</button>
+        <button className='activity__button' onClick={handleSignupToggle}>
+          {isSignedUp ? "Afmeld" : "Tilmeld nu"}
+        </button>
 
         <div className='activity__description-box'>
           <Heading as='h2' size='sm' color='light'>
