@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import Heading from "@/components/ui/heading";
 import useFetch from "@/hooks/useFetch";
-import formatDate from "@/utils/getDate";
-import { addUserToActivity, removeUserFromActivity } from "@/utils/ActivityApi";
+import { ActivityApi } from "@/utils/ActivityApi";
+import getUser from "@/utils/getUser";
 import getCookie from "@/utils/getCookie";
 
 export default function ActivityPage({ params }) {
@@ -11,40 +11,52 @@ export default function ActivityPage({ params }) {
   const { id } = unwrappedParams;
   const { data: activity, error, loading } = useFetch(`activities/${id}`);
   const [isSignedUp, setIsSignedUp] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const [token, setToken] = useState(null);
+  const [userRole, setUserRole] = useState("default");
 
   useEffect(() => {
-    if (activity && activity.participants) {
-      const userId = getCookie("userId");
+    const cookieUserId = getCookie("userId");
+    const cookieToken = getCookie("token");
+
+    setUserId(cookieUserId);
+    setToken(cookieToken);
+
+    const fetchUserRole = async () => {
+      const userData = await getUser();
+      if (userData) {
+        setUserRole(userData.role);
+      }
+    };
+    fetchUserRole();
+  }, []);
+
+  useEffect(() => {
+    if (activity && activity.users && userId) {
       setIsSignedUp(
-        activity.participants.some((p) => String(p.id) === String(userId))
+        activity.users.some((p) => String(p.id) === String(userId))
       );
     }
-  }, [activity]);
+  }, [activity, userId]);
 
   if (loading) return <div className='activity__loading'>Loading...</div>;
   if (error || !activity)
     return <div className='activity__error'>Error loading activity.</div>;
 
   const handleSignupToggle = async () => {
-    const userId = getCookie("userId");
-    const token = getCookie("token");
     try {
       if (isSignedUp) {
-        await removeUserFromActivity(userId, activity.id, token);
+        await ActivityApi.removeUserFromActivity(userId, activity.id, token);
         alert("Du er nu afmeldt!");
         setIsSignedUp(false);
       } else {
-        await addUserToActivity(userId, activity.id, token);
+        await ActivityApi.addUserToActivity(userId, activity.id, token);
         alert("Du er nu tilmeldt!");
         setIsSignedUp(true);
       }
     } catch (err) {
-      if (err.message.includes("unique")) {
-        alert("Du er allerede tilmeldt dette hold.");
-        setIsSignedUp(true);
-      } else {
-        alert("Noget gik galt. Prøv igen.");
-      }
+      console.error("Error during signup/removal:", err);
+      alert("Noget gik galt. Prøv igen: " + err.message);
     }
   };
 
@@ -98,7 +110,16 @@ export default function ActivityPage({ params }) {
           </div>
         </div>
 
-        <button className='activity__button' onClick={handleSignupToggle}>
+        <button
+          className='activity__button'
+          onClick={handleSignupToggle}
+          disabled={userRole === "instructor"}
+          style={
+            userRole === "instructor"
+              ? { opacity: 0.5, cursor: "not-allowed" }
+              : {}
+          }
+        >
           {isSignedUp ? "Afmeld" : "Tilmeld nu"}
         </button>
 
@@ -111,7 +132,7 @@ export default function ActivityPage({ params }) {
 
         <div className='activity__footer'>
           <div className='activity__details'>
-            <p>Sidst opdateret: {formatDate(activity.updatedAt)}</p>
+            <p>Sidst opdateret: {activity.updatedAt}</p>
             <p>Hold ID: #{activity.id}</p>
           </div>
         </div>

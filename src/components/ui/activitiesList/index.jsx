@@ -5,16 +5,34 @@ import Heading from "@/components/ui/heading";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import getUser from "@/utils/getUser";
+
+import { useEffect, useState } from "react";
 
 export default function ActivitiesList() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
 
   const { data: activities } = useFetch("activities");
+  const [user, setUser] = useState(null);
 
-  const filteredActivities = (activities || []).filter((activity) =>
-    activity.name.toLowerCase().includes(query.toLowerCase())
-  );
+  useEffect(() => {
+    (async () => {
+      const userData = await getUser();
+      setUser(userData);
+    })();
+  }, []);
+
+  const userAge = user?.age;
+
+  const filteredActivities = (activities || [])
+    .filter((activity) =>
+      activity.name.toLowerCase().includes(query.toLowerCase())
+    )
+    .filter((activity) => {
+      if (!userAge) return true;
+      return userAge >= activity.minAge;
+    });
 
   return (
     <>

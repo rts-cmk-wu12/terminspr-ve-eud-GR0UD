@@ -2,7 +2,8 @@
 
 .site__header {
   background-color: $color-primary;
-  padding: 3.2rem 2.8rem;
+  padding: $main-padding;
+
   width: 100%;
   box-shadow: 0 4px 16px 0 rgba($color-primary, 1);
   position: fixed;

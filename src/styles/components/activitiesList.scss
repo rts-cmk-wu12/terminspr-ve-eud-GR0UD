@@ -5,6 +5,20 @@
   flex-direction: column;
   gap: 3.1rem;
   padding: $main-padding;
+  padding-top: 0;
+  &__no-results {
+    background-color: $color-surface;
+    border-radius: 8px;
+    padding: calc($main-padding * 0.7);
+    margin: 0 $main-padding;
+    text-align: center;
+
+    p {
+      color: $color-text;
+      font-size: $font-size-xs;
+      margin: 0;
+    }
+  }
 
   &__item {
     width: 100%;

@@ -16,7 +16,7 @@ export default async function middleware(request) {
   // /login is only for logged-out users
   if (pathname.startsWith("/login")) {
     if (hasAccess) {
-      return NextResponse.redirect(new URL("/", request.url));
+      return NextResponse.redirect(new URL("/splashscreen", request.url));
     }
     return NextResponse.next();
   }
